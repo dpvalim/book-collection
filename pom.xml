@@ -8,14 +8,17 @@
 		<version>3.0.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
+
 	<groupId>br.com.diogo</groupId>
 	<artifactId>book-collection</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>book-collection</name>
 	<description>Projeto de colecao de livros</description>
+
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
