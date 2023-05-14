@@ -1,11 +1,10 @@
-# book-collection
+## book-collection
+Projeto-exemplo para a Faculdade Impacta de Tecnologia
 
-## Projeto-exemplo para a Faculdade Impacta
-
-### Disciplica: Software Product: Analysis, Specification, Project
+### Disciplina: Software Product: Analysis, Specification, Project & Implementation
 202301 - EAD - ADS 5A
 
-Sistema de uma Coleção de Livros
+### Sistema de Coleção de Livros
 
 Módulo Backend
 
@@ -14,3 +13,4 @@ Tecnologias:
 - Java 17
 - Springboot 3
 - MongoDB
+
