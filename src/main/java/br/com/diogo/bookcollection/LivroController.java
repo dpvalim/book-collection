@@ -13,16 +13,16 @@ import java.util.List;
 public class LivroController {
 
     @Autowired
-    private LivroRepository livroRepository;
+    private LivroService livroService;
 
     @GetMapping
     public List<Livro> getAllLivros() {
-        return livroRepository.findAll();
+        return livroService.findAll();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Livro> getLivroById(@PathVariable String id) {
-        Livro livro = livroRepository.findById(id).orElse(null);
+        Livro livro = livroService.getLivroById(id);
 
         if (livro == null) {
             return ResponseEntity.notFound().build();
@@ -33,39 +33,39 @@ public class LivroController {
 
     @PostMapping
     public ResponseEntity<Livro> createLivro(@RequestBody Livro livro) {
-        Livro novoLivro = livroRepository.save(livro);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(novoLivro);
+        return ResponseEntity.status(HttpStatus.CREATED).body(livroService.createLivro(livro));
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Livro> updateLivro(@PathVariable String id, @RequestBody Livro livro) {
-        Livro livroExistente = livroRepository.findById(id).orElse(null);
-
-        if (livroExistente == null) {
+        try {
+            Livro livroAtualizado = livroService.updateLivro(id, livro);
+            return ResponseEntity.ok(livroAtualizado);
+        } catch (LivroNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
-
-        livroExistente.setTitulo(livro.getTitulo());
-        livroExistente.setAutor(livro.getAutor());
-        livroExistente.setAno(livro.getAno());
-
-        Livro livroAtualizado = livroRepository.save(livroExistente);
-
-        return ResponseEntity.ok(livroAtualizado);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteLivro(@PathVariable String id) {
-        Livro livro = livroRepository.findById(id).orElse(null);
-
-        if (livro == null) {
+        try {
+            livroService.deleteLivro(id);
+            return ResponseEntity.noContent().build();
+        } catch (LivroNotFoundException ex) {
             return ResponseEntity.notFound().build();
         }
+    }
 
-        livroRepository.delete(livro);
+    @PostMapping("/{livroId}/favorito")
+    public ResponseEntity<Void> marcarComoFavorito(@PathVariable String livroId) {
+        livroService.marcarComoFavorito(livroId);
+        return ResponseEntity.ok().build();
+    }
 
-        return ResponseEntity.noContent().build();
+    @DeleteMapping("/{livroId}/favorito")
+    public ResponseEntity<Void> desmarcarComoFavorito(@PathVariable String livroId) {
+        livroService.desmarcarComoFavorito(livroId);
+        return ResponseEntity.ok().build();
     }
 }
 
